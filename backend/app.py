@@ -2,6 +2,7 @@ from flask import Flask
 from flask_cors import CORS
 import yfinance as yf
 import random as rd
+from flask import Flask, jsonify
 
 app = Flask(__name__)
 CORS(app)
@@ -172,7 +173,6 @@ def predict(ticker):
 # IMPORTANT
 if __name__ == "__main__":
     app.run(
-        host="127.0.0.1",
-        port=5000,
-        debug=True
+        host="0.0.0.0",
+        port=5000
     )
