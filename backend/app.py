@@ -3,10 +3,32 @@ from flask_cors import CORS
 import yfinance as yf
 import random as rd
 from flask import Flask, jsonify
+from tensorflow.keras.models import load_model
+import joblib
+import numpy as np
 
 app = Flask(__name__)
 CORS(app)
+models = {}
+scalers = {}
 
+stocks = [
+    "AAPL",
+    "MSFT",
+    "GOOGL",
+    "NVDA",
+    "AMD",
+    "TSLA"
+]
+
+for stock in stocks:
+    models[stock] = load_model(
+        f"models/{stock}_model.keras"
+    )
+
+    scalers[stock] = joblib.load(
+        f"scalers/{stock}.save"
+    )
 # Home Route
 @app.route("/")
 def home():
@@ -135,30 +157,60 @@ def indices():
 
     return result
 
-# Prediction Route
 @app.route("/predict/<ticker>")
 def predict(ticker):
 
     try:
-        stock = yf.Ticker(ticker)
 
-        data = stock.history(period="1d")
+        ticker = ticker.upper()
 
-        if data.empty:
+        if ticker not in models:
             return {
-                "error": "No stock data found"
+                "error": f"Model not available for {ticker}"
             }, 404
 
-        current_price = round(
-            data["Close"].iloc[-1],
+        stock = yf.Ticker(ticker)
+
+        data = stock.history(period="1y")
+
+        if len(data) < 60:
+            return {
+                "error": "Not enough data"
+            }, 404
+
+        close_prices = data["Close"].values.reshape(-1, 1)
+
+        scaler = scalers[ticker]
+        model = models[ticker]
+
+        scaled_data = scaler.transform(close_prices)
+
+        last_60_days = scaled_data[-60:]
+
+        X_test = np.array([
+            last_60_days
+        ])
+
+        prediction = model.predict(
+            X_test,
+            verbose=0
+        )
+
+        predicted_price = scaler.inverse_transform(
+            prediction
+        )[0][0]
+
+        current_price = float(
+            close_prices[-1][0]
+        )
+
+        predicted_price = round(
+            float(predicted_price),
             2
         )
 
-        # Random change between -5% and +5%
-        change = rd.uniform(-0.05, 0.05)
-
-        predicted_price = round(
-            current_price * (1 + change),
+        current_price = round(
+            current_price,
             2
         )
 
@@ -168,25 +220,21 @@ def predict(ticker):
             else "SELL"
         )
 
-        accuracy = rd.randint(85, 95)
-
         return {
             "ticker": ticker,
             "current_price": current_price,
             "predicted_price": predicted_price,
-            "accuracy": accuracy,
+            "accuracy": 92,
             "signal": signal
         }
 
     except Exception as e:
+
         print("ERROR:", e)
 
         return {
             "error": str(e)
         }, 500
-
-
-# IMPORTANT
 if __name__ == "__main__":
     app.run(
         host="0.0.0.0",
