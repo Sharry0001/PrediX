@@ -123,7 +123,7 @@ const displayName =
   useEffect(() => {
 
   axios
-    .get(`http://127.0.0.1:5000/stock-data/${stock}`)
+    .get(`https://predix-api.onrender.com/stock-data/${stock}`)
     .then((res) => {
 
       setChartData({
@@ -150,7 +150,7 @@ fetchIndices();
 const fetchIndices = async()=>{
 
 const res = await axios.get(
-"http://127.0.0.1:5000/indices"
+"https://predix-api.onrender.com/indices"
 );
 
 setIndices(res.data);
@@ -205,7 +205,7 @@ const removeFromWatchlist = (ticker) => {
 const fetchStocks=async()=>{
 
 const res=await axios.get(
-"http://127.0.0.1:5000/stocks"
+"https://predix-api.onrender.com/stocks"
 );
 
 setMarketData(res.data);
@@ -216,7 +216,7 @@ setMarketData(res.data);
       setLoading(true);
       setError("");
      const response = await axios.get(
-  `http://127.0.0.1:5000/predict/${stock}`
+  `https://predix-api.onrender.com/predict/${stock}`
 )
 
       setResult(response.data);
