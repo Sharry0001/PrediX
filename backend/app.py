@@ -39,10 +39,26 @@ def stock_data(ticker):
 @app.route("/stocks")
 def stocks():
     return jsonify([
-        {"ticker":"AAPL"},
-        {"ticker":"MSFT"},
-        {"ticker":"NVDA"},
-        {"ticker":"TSLA"}
+        {
+            "ticker":"AAPL",
+            "price":210.45,
+            "change":1.25
+        },
+        {
+            "ticker":"MSFT",
+            "price":379.40,
+            "change":0.85
+        },
+        {
+            "ticker":"NVDA",
+            "price":145.20,
+            "change":2.10
+        },
+        {
+            "ticker":"TSLA",
+            "price":248.70,
+            "change":-1.35
+        }
     ])
 # Stock Prices Route
 @app.route("/indices")
