@@ -217,7 +217,7 @@ setMarketData(res.data);
       setLoading(true);
       setError("");
 const response = await axios.get(
-  `${API_URL}/predict/${stock}`
+  `https://predix-backend-jtx1.onrender.com/predict/${stock}`
 );
 
       setResult(response.data);
