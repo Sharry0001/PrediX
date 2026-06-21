@@ -16,9 +16,7 @@ stocks = [
     "AAPL",
     "MSFT",
     "GOOGL",
-    "NVDA",
-    "AMD",
-    "TSLA"
+    "NVDA"
 ]
 
 for stock in stocks:

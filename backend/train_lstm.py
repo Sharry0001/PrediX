@@ -14,10 +14,7 @@ os.makedirs("scalers", exist_ok=True)
 stocks = [
     "AAPL",
     "MSFT",
-    "GOOGL",
-    "NVDA",
-    "AMD",
-    "TSLA"
+    "GOOGL"
 ]
 
 for ticker in stocks:
