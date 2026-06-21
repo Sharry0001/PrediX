@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
-const API_URL = "https://predix-backend-jtx1.onrender.com";
+const API_URL = "https://sharil0001-predix-backend.hf.space";
 function TradingViewChart({ symbol }) {
   const location = useLocation();
   const chartRef = useRef(null);
@@ -217,7 +217,7 @@ setMarketData(res.data);
       setLoading(true);
       setError("");
 const response = await axios.get(
-  `https://predix-backend-jtx1.onrender.com/predict/${stock}`
+  `https://sharil0001-predix-backend.hf.space/predict/${stock}`
 );
 
       setResult(response.data);
