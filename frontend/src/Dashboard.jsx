@@ -567,18 +567,13 @@ Signal
     </div>
 
     <div>
-      <p className="text-gray-500">Signal</p>
-      <p
-        className={`font-bold ${
-          result?.signal === "BUY"
-            ? "text-green-600"
-            : result?.signal === "SELL"
-            ? "text-red-600"
-            : "text-gray-400"
-        }`}
-      >
-        {result?.signal || "--"}
-      </p>
+      <p style={{
+    color: result?.signal === "BUY" ? "green" : "red",
+    fontWeight: "bold"
+  }}
+>
+  {result?.signal || "--"}
+</p>
     </div>
 
     <div>
