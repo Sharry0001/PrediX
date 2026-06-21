@@ -1,0 +1,7 @@
+.venv/
+backend/venv/
+lstm311/
+node_modules/
+dist/
+__pycache__/
+*.pyc

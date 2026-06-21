@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
 import Footer from "./components/Footer";
+const API_URL = "https://predix-backend-jtx1.onrender.com";
 function TradingViewChart({ symbol }) {
   const location = useLocation();
   const chartRef = useRef(null);
@@ -123,7 +124,7 @@ const displayName =
   useEffect(() => {
 
   axios
-    .get(`https://predix-api.onrender.com/stock-data/${stock}`)
+    .get(`${API_URL}/stock-data/${stock}`)
     .then((res) => {
 
       setChartData({
@@ -144,13 +145,16 @@ const displayName =
 
 }, [stock]);
 useEffect(()=>{
-fetchStocks();
-fetchIndices();
+  fetchStocks();
+},[stock]);
+
+useEffect(()=>{
+  fetchIndices();
 },[]);
 const fetchIndices = async()=>{
 
 const res = await axios.get(
-"https://predix-api.onrender.com/indices"
+`${API_URL}/indices`
 );
 
 setIndices(res.data);
@@ -204,10 +208,7 @@ const removeFromWatchlist = (ticker) => {
 };
 const fetchStocks=async()=>{
 
-const res=await axios.get(
-"https://predix-api.onrender.com/stocks"
-);
-
+const res=await axios.get(`${API_URL}/stock-data/${stock}`)
 setMarketData(res.data);
 
 };
@@ -215,9 +216,9 @@ setMarketData(res.data);
     try {
       setLoading(true);
       setError("");
-     const response = await axios.get(
-  `https://predix-api.onrender.com/predict/${stock}`
-)
+const response = await axios.get(
+  `${API_URL}/predict/${stock}`
+);
 
       setResult(response.data);
 setHistory((prev) => [
